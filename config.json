@@ -1,0 +1,5 @@
+{
+    "enable_attendance": true,
+    "enable_fall_alert": false,
+    "enable_fire_alert": false
+}
