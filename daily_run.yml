@@ -1,0 +1,32 @@
+name: Daily Python Automation
+
+on:
+  schedule:
+    # ⏱️ ตั้งเวลาให้รันทุกวันตอน 7 โมงเช้าเวลาไทย (00:00 UTC)
+    # หากต้องการเปลี่ยนเวลา ให้แก้เลข 0 0 ตรงนี้ (นาที ชั่วโมง) โดยอิงเวลา UTC ซึ่งช้ากว่าไทย 7 ชั่วโมง
+    - cron: '0 0 * * *'
+  workflow_dispatch: # เปิดปุ่มให้เราสามารถกดสั่งรันเองแบบ Manual ได้ด้วย
+
+jobs:
+  run-python-job:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        lfs: true # 👈 ดึงไฟล์โมเดลขนาดใหญ่ (.pt) จาก Git LFS ลงมารันด้วย
+
+    - name: Set up Python
+      uses: actions/setup-python@v5
+      with:
+        python-version: '3.10'
+
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        # 📦 พิมพ์สั่งติดตั้ง Library ทั้งหมดที่โค้ดของคุณต้องใช้ตรงนี้ 
+        # ตัวอย่างเช่น: pip install ultralytics opencv-python numpy
+        pip install ultralytics opencv-python
+
+    - name: Run Script
+      run: python All4_2.py # 🚀 เปลี่ยนเป็นชื่อไฟล์หลักที่คุณต้องการสั่งรัน เช่น hr.py หรือ All4_2.py
